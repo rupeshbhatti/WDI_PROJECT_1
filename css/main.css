@@ -5,12 +5,12 @@ header {
 }
 
 h1 {
-  display: block;
-  text-align:center;
   font: 50px arial, sans-serif;
-  margin: auto;
   font-weight: 900;
+  text-align:center;
   color: white;
+  display: block;
+  margin: auto;
 }
 
 main {
@@ -19,12 +19,12 @@ main {
 }
 
 #turd {
-  border: 2px solid black;
   height: 50px;
   width: 50px;
   display:inline-block;
   margin-top: 180px;
   margin-left: 25%;
+  border: 2px solid black;
 }
 
 footer {

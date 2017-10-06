@@ -24,8 +24,21 @@
 // restart (which is the same as startGame)
 
 function flappyTurd(){
-  console.log('yo');
-}
 
+  //define global variables
+  const $turd = $('#turd');
+  const $level = $('main');
+  const $ground = $('footer');
+
+  function fall(){
+    let verticalPosition = parseInt($turd.css('margin-top'));
+    verticalPosition = verticalPosition + 10;
+    $turd.css('margin-top', `${verticalPosition}px`);
+    console.log(verticalPosition);
+  }
+
+  setInterval(fall, 100);
+
+}
 
 $(flappyTurd);
