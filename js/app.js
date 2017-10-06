@@ -23,28 +23,58 @@
 // gameOver
 // restart (which is the same as startGame)
 
+//define global variables
+let $turd;
+let $level;
+let $ground;
+
+let verticalPosition;
+
+//main function
 function flappyTurd(){
+  $turd = $('#turd');
+  $level = $('main');
+  $ground = $('footer');
 
-  //define global variables
-  const $turd = $('#turd');
-  const $level = $('main');
-  const $ground = $('footer');
+  //set event handlers
+  $level.on('click', flyTurd);
 
-  function fall(){
-    let verticalPosition = parseInt($turd.css('margin-top'));
+  // function for making turd fall
+  function dropTurd(){
     const floor = 550; //this is because the level height is 600px and turd height is 50px
 
+    verticalPosition = parseInt($turd.css('margin-top'));
     if(verticalPosition === floor){
-      clearInterval();
+      stopTurd();
     } else {
       verticalPosition = verticalPosition + 10;
-      $turd.css('margin-top', `${verticalPosition}px`);
+      setDOMTurdVerticalPosition();
       console.log(verticalPosition);
     }
-
   }
 
-  setInterval(fall, 100);
+  // function for making turd fly
+  function flyTurd(){
+    const ceiling = 30;
+    if(verticalPosition <= ceiling){
+      //game over
+
+    } else {
+      verticalPosition = verticalPosition -50;
+      setDOMTurdVerticalPosition();
+    }
+  }
+
+  //function to stop turd moving
+  function stopTurd(){
+    clearInterval();
+  }
+
+  //function to set turd's vertical position
+  function setDOMTurdVerticalPosition(){
+    $turd.css('margin-top', `${verticalPosition}px`);
+  }
+  setInterval(dropTurd, 50);
 
 }
 
