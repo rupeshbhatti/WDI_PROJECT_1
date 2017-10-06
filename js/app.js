@@ -32,9 +32,16 @@ function flappyTurd(){
 
   function fall(){
     let verticalPosition = parseInt($turd.css('margin-top'));
-    verticalPosition = verticalPosition + 10;
-    $turd.css('margin-top', `${verticalPosition}px`);
-    console.log(verticalPosition);
+    const floor = 550; //this is because the level height is 600px and turd height is 50px
+
+    if(verticalPosition === floor){
+      clearInterval();
+    } else {
+      verticalPosition = verticalPosition + 10;
+      $turd.css('margin-top', `${verticalPosition}px`);
+      console.log(verticalPosition);
+    }
+
   }
 
   setInterval(fall, 100);
