@@ -22,12 +22,26 @@ main {
   height: 50px;
   width: 50px;
   display:inline-block;
+  position:absolute;
   margin-top: 180px;
   margin-left: 25%;
   border: 2px solid black;
 }
 
+.obstacle {
+  border: 2px solid SlateBlue;
+  background-color: SlateBlue;
+  height: 250px;
+  width: 150px;
+  display: inline-block;
+  position: relative;
+  margin-right: -150px;
+  margin-top: 345px;
+  float:right;
+}
+
 footer {
+  float: none;
   background-color: Chocolate;
   height: 160px;
 }

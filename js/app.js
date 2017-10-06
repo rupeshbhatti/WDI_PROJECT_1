@@ -27,14 +27,17 @@
 let $turd;
 let $level;
 let $ground;
+let $obstacle;
 
 let verticalPosition;
+let horizontalObstaclePosition;
 
 //main function
 function flappyTurd(){
   $turd = $('#turd');
   $level = $('main');
   $ground = $('footer');
+  $obstacle = $('.obstacle');
 
   //set event handlers
   $level.on('click', flyTurd);
@@ -74,8 +77,23 @@ function flappyTurd(){
   function setDOMTurdVerticalPosition(){
     $turd.css('margin-top', `${verticalPosition}px`);
   }
-  setInterval(dropTurd, 50);
 
+  function animateObstacle(){
+    horizontalObstaclePosition = parseInt($obstacle.css('margin-right'));
+
+    if (horizontalObstaclePosition > 2000){
+      horizontalObstaclePosition = -150;
+    } else {
+      horizontalObstaclePosition = horizontalObstaclePosition + 1;
+    }
+
+    $obstacle.css('margin-right',`${horizontalObstaclePosition}px`);
+
+  }
+
+
+  setInterval(dropTurd, 50);
+  setInterval(animateObstacle,1); //clear
 }
 
 $(flappyTurd);
