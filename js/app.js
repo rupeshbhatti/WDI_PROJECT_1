@@ -1,8 +1,4 @@
-
-
-console.log('working');
-
-// flappy bird
+// flappy turd
 
 // Welcome screen with instructions
 // On page load, ask the player if they are ready - press a start button to start (initialise game)
@@ -26,3 +22,10 @@ console.log('working');
 // collision
 // gameOver
 // restart (which is the same as startGame)
+
+function flappyTurd(){
+  console.log('yo');
+}
+
+
+$(flappyTurd);

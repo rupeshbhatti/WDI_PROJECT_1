@@ -1,3 +1,33 @@
-body {
-  background: blue;
+header {
+  background-color: LightSkyBlue;
+  height:200px;
+  border-bottom: 2px solid white;
+}
+
+h1 {
+  display: block;
+  text-align:center;
+  font: 50px arial, sans-serif;
+  margin: auto;
+  font-weight: 900;
+  color: white;
+}
+
+main {
+  background-color: Moccasin;
+  height: 600px;
+}
+
+#turd {
+  border: 2px solid black;
+  height: 50px;
+  width: 50px;
+  display:inline-block;
+  margin-top: 180px;
+  margin-left: 25%;
+}
+
+footer {
+  background-color: Chocolate;
+  height: 160px;
 }
