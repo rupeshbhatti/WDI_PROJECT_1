@@ -30,7 +30,6 @@ let $ground;
 let $obstacle;
 
 let verticalTurdPosition;
-const horizontalTurdPosition = 60;
 let horizontalObstaclePosition;
 let obstacleHeight;
 
@@ -40,6 +39,7 @@ function flappyTurd(){
   $level = $('main');
   $ground = $('footer');
   $obstacle = $('.obstacle');
+  const horizontalTurdPosition = parseInt($turd.css('margin-left'));
   obstacleHeight = parseInt($obstacle.css('height'));
 
   //set event handlers
@@ -73,7 +73,8 @@ function flappyTurd(){
 
   //function to stop turd moving
   function stopTurd(){
-    clearInterval();
+    clearInterval(movingTurd);
+    clearInterval(movingObstacle);
   }
 
   //function to set turd's vertical position
@@ -83,14 +84,14 @@ function flappyTurd(){
 
   //function to slide obstacle into view from right of screen to left and then loop
   function slideObstacle(){
-    horizontalObstaclePosition = parseInt($obstacle.css('margin-right'));
+    horizontalObstaclePosition = parseInt($obstacle.css('margin-left'));
 
-    if (horizontalObstaclePosition > 1700){ //i.e. obstacle has moved off-screen left
-      horizontalObstaclePosition = -150; //i.e. bring it back off-screen right - this causes the loop effect
+    if (horizontalObstaclePosition <= -250){ //i.e. obstacle has moved off-screen left
+      horizontalObstaclePosition = 2000; //i.e. bring it back off-screen right - this causes the loop effect
     } else {
-      horizontalObstaclePosition = horizontalObstaclePosition + 1;
+      horizontalObstaclePosition = horizontalObstaclePosition - 1;
     }
-    $obstacle.css('margin-right',`${horizontalObstaclePosition}px`);
+    $obstacle.css('margin-left',`${horizontalObstaclePosition}px`);
 
     detectCollision();
   }
@@ -98,15 +99,18 @@ function flappyTurd(){
   //function for collision detection
   function detectCollision(){
 
-    // console.log(`horizontalObstaclePosition...${horizontalObstaclePosition}`);
-    // console.log(`obstacleHeight;...${obstacleHeight;}`);
-    if ((horizontalTurdPosition === horizontalObstaclePosition) && (verticalTurdPosition === obstacleHeight)) {
+    //console.log(`horizontalObstaclePosition...${horizontalObstaclePosition}`);
+    //obstacleHeight is 250px
+    //turd horizontal position is 350px
+    //turd width is 50px
+    if ((horizontalObstaclePosition <= horizontalTurdPosition+50) && (verticalTurdPosition-50 >= obstacleHeight)) {
       console.log('collision!');
+      stopTurd();
     }
   }
 
-  setInterval(dropTurd, 50);
-  setInterval(slideObstacle,1); //move every 1milisecs to give smooth illusion of moving
+  const movingTurd = setInterval(dropTurd, 50);
+  const movingObstacle = setInterval(slideObstacle,1); //move every 1milisecs to give smooth illusion of moving
 }
 
 $(flappyTurd);
