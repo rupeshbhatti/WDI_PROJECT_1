@@ -65,7 +65,7 @@ function flappyTurd(){
   function flyTurd(){
     const ceiling = 30;
     if(verticalTurdPosition <= ceiling){
-      //game over
+      stopTurd();
 
     } else {
       verticalTurdPosition = verticalTurdPosition -50;
