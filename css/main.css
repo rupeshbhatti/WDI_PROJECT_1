@@ -5,7 +5,7 @@ header {
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 50px;
   font-family:'Press Start 2P', cursive;
   font-weight: 900;
   text-align:center;
@@ -16,8 +16,17 @@ h1 {
 }
 
 main {
-  /*background-color: Moccasin;*/
+  background-color: SeaShell;
   height: 540px;
+}
+
+#score {
+  font-size: 50px;
+  font-family:'Press Start 2P', cursive;
+  text-align:center;
+  color:Teal;
+  margin:auto;
+  padding:30px 0 0;
 }
 
 #turd {
@@ -32,8 +41,8 @@ main {
 }
 
 .obstacle {
-  border: 2px solid SlateBlue;
-  background-color: SlateBlue;
+  border: 2px solid mediumseagreen;
+  background-color: mediumseagreen;
   height: 250px;
   width: 150px;
   display: inline-block;
@@ -48,5 +57,6 @@ footer {
   background: url('../images/grass.png');
   background-size: contain;
   background-repeat: repeat-x;
+  background-color: SeaShell;
   height: 200px;
 }

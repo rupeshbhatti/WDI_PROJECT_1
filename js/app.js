@@ -8,20 +8,7 @@
 // Display animated obstacles moving from right of screen to left
 // Win logic - increment score each time an obstacle is successfully passed
 // Collision logic + game over / restart
-// Animations / character + graphics (libraries such as phaser.io)
-//
-// modules:
-//
-// displayWelcomeScreen
-// startGame
-// fall
-// fly
-// displayObstacle
-// animateObstacles
-// incrementScore
-// collision
-// gameOver
-// restart (which is the same as startGame)
+// Animations / character + graphics (libraries such as phaser.io?)
 
 //define global variables
 let $turd;
@@ -29,6 +16,7 @@ let $level;
 let $ground;
 let $obstacle;
 let $audio;
+let $score;
 
 let verticalTurdPosition;
 let horizontalObstaclePosition;
@@ -43,6 +31,7 @@ function flappyTurd(){
   $ground = $('footer');
   $obstacle = $('.obstacle');
   $audio = $('audio');
+  $score = $('#score');
   const horizontalTurdPosition = parseInt($turd.css('margin-left'));
   obstacleHeight = parseInt($obstacle.css('height'));
   obstacleWidth = parseInt($obstacle.css('width'));
@@ -119,6 +108,19 @@ function flappyTurd(){
     if ((horizontalObstaclePosition <= horizontalTurdPosition+50) && (horizontalObstaclePosition >= obstacleWidth+50) && (verticalTurdPosition-50 >= obstacleHeight)) {
       stopTurd();
     }
+
+    if (horizontalObstaclePosition === horizontalTurdPosition) {
+      incrementScore();
+    }
+  }
+
+  //function for incrementing the score each time an obstacle is passed
+  function incrementScore(){
+    let score = parseInt($score.html());
+
+    score++;
+    console.log(score);
+    $score.html(score);
   }
 
   const movingTurd = setInterval(dropTurd, 50);
