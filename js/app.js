@@ -32,6 +32,7 @@ let $obstacle;
 let verticalTurdPosition;
 let horizontalObstaclePosition;
 let obstacleHeight;
+let obstacleWidth;
 
 //main function
 function flappyTurd(){
@@ -41,6 +42,7 @@ function flappyTurd(){
   $obstacle = $('.obstacle');
   const horizontalTurdPosition = parseInt($turd.css('margin-left'));
   obstacleHeight = parseInt($obstacle.css('height'));
+  obstacleWidth = parseInt($obstacle.css('width'));
 
   //set event handlers
   $(window).on('click', flyTurd);
@@ -99,12 +101,10 @@ function flappyTurd(){
   //function for collision detection
   function detectCollision(){
 
-    //console.log(`horizontalObstaclePosition...${horizontalObstaclePosition}`);
     //obstacleHeight is 250px
     //turd horizontal position is 350px
     //turd width is 50px
-    if ((horizontalObstaclePosition <= horizontalTurdPosition+50) && (verticalTurdPosition-50 >= obstacleHeight)) {
-      console.log('collision!');
+    if ((horizontalObstaclePosition <= horizontalTurdPosition+50) && (horizontalObstaclePosition >= obstacleWidth+50) && (verticalTurdPosition-50 >= obstacleHeight)) {
       stopTurd();
     }
   }
