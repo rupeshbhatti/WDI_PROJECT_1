@@ -119,7 +119,6 @@ function flappyTurd(){
     let score = parseInt($score.html());
 
     score++;
-    console.log(score);
     $score.html(score);
   }
 
