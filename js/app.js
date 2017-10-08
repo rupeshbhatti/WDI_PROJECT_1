@@ -79,8 +79,8 @@ function flappyTurd(){
   function stopTurd(){
     clearInterval(movingTurd);
     clearInterval(movingObstacle);
-    // $audio.attr('src','sounds/splat.mp3');
-    // $audio.play;
+    $audio.attr('src','sounds/splat.wav');
+    $audio.trigger('play');
   }
 
   //function to set turd's vertical position
@@ -106,7 +106,7 @@ function flappyTurd(){
   function slideGround(){
     let x = 0;
     x-=1;
-    $ground.css('background-position',x +'px 0');
+    $ground.css('background-position', x +'px 0');
   }
 
   //function for collision detection
