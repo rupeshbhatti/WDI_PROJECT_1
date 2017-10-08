@@ -28,6 +28,7 @@ let $turd;
 let $level;
 let $ground;
 let $obstacle;
+let $audio;
 
 let verticalTurdPosition;
 let horizontalObstaclePosition;
@@ -40,6 +41,7 @@ function flappyTurd(){
   $level = $('main');
   $ground = $('footer');
   $obstacle = $('.obstacle');
+  $audio = $('audio');
   const horizontalTurdPosition = parseInt($turd.css('margin-left'));
   obstacleHeight = parseInt($obstacle.css('height'));
   obstacleWidth = parseInt($obstacle.css('width'));
@@ -77,6 +79,8 @@ function flappyTurd(){
   function stopTurd(){
     clearInterval(movingTurd);
     clearInterval(movingObstacle);
+    // $audio.attr('src','sounds/splat.mp3');
+    // $audio.play;
   }
 
   //function to set turd's vertical position
@@ -98,6 +102,13 @@ function flappyTurd(){
     detectCollision();
   }
 
+  //function to slide the ground
+  function slideGround(){
+    let x = 0;
+    x-=1;
+    $ground.css('background-position',x +'px 0');
+  }
+
   //function for collision detection
   function detectCollision(){
 
@@ -111,6 +122,7 @@ function flappyTurd(){
 
   const movingTurd = setInterval(dropTurd, 50);
   const movingObstacle = setInterval(slideObstacle,1); //move every 1milisecs to give smooth illusion of moving
+  const movingGround = setInterval(slideGround,1)
 }
 
 $(flappyTurd);

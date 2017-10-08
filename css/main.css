@@ -16,8 +16,8 @@ h1 {
 }
 
 main {
-  background-color: Moccasin;
-  height: 600px;
+  /*background-color: Moccasin;*/
+  height: 540px;
 }
 
 #turd {
@@ -45,6 +45,8 @@ main {
 
 footer {
   float: none;
-  background-color: Chocolate;
-  height: 160px;
+  background: url('../images/grass.png');
+  background-size: contain;
+  background-repeat: repeat-x;
+  height: 200px;
 }
