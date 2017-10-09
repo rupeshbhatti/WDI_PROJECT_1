@@ -18,11 +18,12 @@ let $obstacle;
 let $audio;
 let $score;
 
-let verticalTurdPosition;
-let horizontalObstaclePosition;
+let turdYPos;
+let obstXPos;
 let obstacleHeight;
 let obstacleWidth;
 let groundPosition = 0;
+let flyZone = [];
 
 //main function
 function flappyTurd(){
@@ -33,7 +34,7 @@ function flappyTurd(){
   $obstacle = $('ul');
   $audio = $('audio');
   $score = $('#score');
-  const horizontalTurdPosition = parseInt($turd.css('margin-left'));
+  const turdXPos = parseInt($turd.css('margin-left'));
   obstacleHeight = parseInt($obstacle.css('height'));
   obstacleWidth = parseInt($obstacle.css('width'));
 
@@ -45,11 +46,11 @@ function flappyTurd(){
   function dropTurd(){
     const floor = 550; //this is because the level height is 600px and turd height is 50px
 
-    verticalTurdPosition = parseInt($turd.css('margin-top'));
-    if(verticalTurdPosition === floor){
+    turdYPos = parseInt($turd.css('margin-top'));
+    if(turdYPos === floor){
       stopTurd();
     } else {
-      verticalTurdPosition = verticalTurdPosition + 10;
+      turdYPos = turdYPos + 10;
       setDOMTurdVerticalPosition();
     }
   }
@@ -57,11 +58,11 @@ function flappyTurd(){
   // function for making turd fly
   function flyTurd(){
     const ceiling = 30;
-    if(verticalTurdPosition <= ceiling){
+    if(turdYPos <= ceiling){
       stopTurd();
 
     } else {
-      verticalTurdPosition = verticalTurdPosition -50;
+      turdYPos = turdYPos -50;
       setDOMTurdVerticalPosition();
     }
   }
@@ -77,13 +78,13 @@ function flappyTurd(){
 
   //function to set turd's vertical position
   function setDOMTurdVerticalPosition(){
-    $turd.css('margin-top', `${verticalTurdPosition}px`);
+    $turd.css('margin-top', `${turdYPos}px`);
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing
   function createObstacle(){
     //generate a random number between 0 and 6
-    let randomNo = Math.floor(Math.random() * (6)) + 1;
+    const randomNo1 = Math.floor(Math.random() * (5)) + 1;
 
     //set background-color for all to mediumseagreen initially
     for (let i = 1; i < 7; i++) {
@@ -92,33 +93,41 @@ function flappyTurd(){
     }
 
     // set the background-color for randomNo
-    $(`ul li#${randomNo}`).css('background-color','transparent');
+    $(`ul li#${randomNo1}`).css('background-color','transparent');
 
-    if (randomNo === 6) {
-      randomNo--;
-      $(`ul li#${randomNo}`).css('background-color','transparent');
-    } else {
-      randomNo++;
-      $(`ul li#${randomNo}`).css('background-color','transparent');
-    }
+    const randomNo2 = randomNo1 + 1;
+    $(`ul li#${randomNo2}`).css('background-color','transparent');
+
+    flyableZone(randomNo1,randomNo2);
+    console.log(randomNo1, randomNo2);
+  }
+
+  function flyableZone(portion1, portion2){
+    const portionHeight = ($obstacle.height())/6;
+    const zones = {'1': [0,portionHeight], '2': [portionHeight,portionHeight*2], '3': [portionHeight*2,portionHeight*3], '4': [portionHeight*3,portionHeight*4], '5': [portionHeight*4,portionHeight*5], '6': [portionHeight*5,portionHeight*6]};
+
+    // set the flyableZone
+    flyZone[0] = (zones[portion1]);
+    flyZone[1] = (zones[portion2]);
+    console.log(flyZone);
   }
 
   //function to slide obstacle into view from right of screen to left and then loop
   function slideObstacle(){
-    horizontalObstaclePosition = parseInt($obstacle.css('margin-left'));
+    obstXPos = parseInt($obstacle.css('margin-left'));
 
     //create new obstacle when the obstacle's margin-left is 2000px
-    if (horizontalObstaclePosition === 2000){
+    if (obstXPos === 2000){
       createObstacle();
     }
 
-    if (horizontalObstaclePosition <= -250){ //i.e. obstacle has moved off-screen left
-      horizontalObstaclePosition = 2000; //i.e. bring it back off-screen right - this causes the loop effect
+    if (obstXPos <= -250){ //i.e. obstacle has moved off-screen left
+      obstXPos = 2000; //i.e. bring it back off-screen right - this causes the loop effect
     } else {
-      horizontalObstaclePosition = horizontalObstaclePosition - 1;
+      obstXPos = obstXPos - 1;
     }
 
-    $obstacle.css('margin-left',`${horizontalObstaclePosition}px`);
+    $obstacle.css('margin-left',`${obstXPos}px`);
 
     detectCollision();
   }
@@ -131,16 +140,17 @@ function flappyTurd(){
 
   //function for collision detection
   function detectCollision(){
+    //turdXPos = 350
 
-    //obstacleHeight is 250px
-    //turd horizontal position is 350px
-    //turd width is 50px
-    if ((horizontalObstaclePosition <= horizontalTurdPosition+50) && (horizontalObstaclePosition >= obstacleWidth+50) && (verticalTurdPosition-50 >= obstacleHeight)) {
+    if ( ((turdYPos <= flyZone[0][0]) || (turdYPos >= flyZone[1][1])) && (obstXPos <= 400) ) {
       stopTurd();
     }
 
-    if (horizontalObstaclePosition === horizontalTurdPosition) {
+    if (obstXPos === turdXPos) {
       incrementScore();
+      //reset the flyZone
+      flyZone[0][0] = 0;
+      flyZone[1][1] = $obstacle.height();
     }
   }
 
