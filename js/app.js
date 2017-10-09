@@ -142,11 +142,11 @@ function flappyTurd(){
   function detectCollision(){
     //turdXPos = 350
 
-    if ( ((turdYPos <= flyZone[0][0]) || (turdYPos >= flyZone[1][1])) && (obstXPos <= 400) ) {
+    if ( ((turdYPos <= (flyZone[0][0])) || (turdYPos >= (flyZone[1][1])-50) ) && (obstXPos <= 400) ) {
       stopTurd();
     }
 
-    if (obstXPos === turdXPos) {
+    if (obstXPos+150 === turdXPos) {
       incrementScore();
       //reset the flyZone
       flyZone[0][0] = 0;
@@ -156,6 +156,8 @@ function flappyTurd(){
 
   //function for incrementing the score each time an obstacle is passed
   function incrementScore(){
+    console.log(obstXPos);
+    console.log(turdXPos);
     let score = parseInt($score.html());
 
     score++;
