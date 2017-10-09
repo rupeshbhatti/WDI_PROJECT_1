@@ -54,16 +54,28 @@ main {
   float:left;
 }
 
-.obstacle {
+/*.obstacle {
   border: 2px solid mediumseagreen;
   background-color: mediumseagreen;
   height: 250px;
   width: 150px;
   display: inline-block;
   position: relative;
-  /*margin-right: -150px;*/
-  margin-left: 2000px; /* 1024px screen width + width of an obstacle*/
+  margin-left: 2000px;
   margin-top: 345px;
+}*/
+
+
+ul {
+  height: 612px;
+  width: 150px;
+  display: inline-block;
+  position:relative;
+  margin-left: 2000px; /* 1024px screen width + width of an obstacle*/
+}
+
+li {
+  height: 102px;
 }
 
 footer {

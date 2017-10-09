@@ -29,7 +29,8 @@ function flappyTurd(){
   $turd = $('#turd');
   $level = $('main');
   $ground = $('footer');
-  $obstacle = $('.obstacle');
+  // $obstacle = $('.obstacle');
+  $obstacle = $('ul');
   $audio = $('audio');
   $score = $('#score');
   const horizontalTurdPosition = parseInt($turd.css('margin-left'));
@@ -79,15 +80,44 @@ function flappyTurd(){
     $turd.css('margin-top', `${verticalTurdPosition}px`);
   }
 
+  //function to create an obstacle with a random portion of two consecutive lis missing
+  function createObstacle(){
+    //generate a random number between 0 and 6
+    let randomNo = Math.floor(Math.random() * (6)) + 1;
+
+    //set background-color for all to mediumseagreen initially
+    for (let i = 1; i < 7; i++) {
+      //set background-color
+      $(`ul li#${[i]}`).css('background-color','mediumseagreen');
+    }
+
+    // set the background-color for randomNo
+    $(`ul li#${randomNo}`).css('background-color','transparent');
+
+    if (randomNo === 6) {
+      randomNo--;
+      $(`ul li#${randomNo}`).css('background-color','transparent');
+    } else {
+      randomNo++;
+      $(`ul li#${randomNo}`).css('background-color','transparent');
+    }
+  }
+
   //function to slide obstacle into view from right of screen to left and then loop
   function slideObstacle(){
     horizontalObstaclePosition = parseInt($obstacle.css('margin-left'));
+
+    //create new obstacle when the obstacle's margin-left is 2000px
+    if (horizontalObstaclePosition === 2000){
+      createObstacle();
+    }
 
     if (horizontalObstaclePosition <= -250){ //i.e. obstacle has moved off-screen left
       horizontalObstaclePosition = 2000; //i.e. bring it back off-screen right - this causes the loop effect
     } else {
       horizontalObstaclePosition = horizontalObstaclePosition - 1;
     }
+
     $obstacle.css('margin-left',`${horizontalObstaclePosition}px`);
 
     detectCollision();
