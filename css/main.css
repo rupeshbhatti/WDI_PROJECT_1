@@ -71,7 +71,7 @@ ul {
   width: 150px;
   display: inline-block;
   position:relative;
-  margin-left: 2000px; /* 1024px screen width + width of an obstacle*/
+  left: 2000px; /* 1024px screen width + width of an obstacle*/
 }
 
 li {

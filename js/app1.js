@@ -15,11 +15,6 @@ let turdYPos;
 let obstXPos;
 let groundXPos = 0;
 let flyZone = [];
-let level = 2;
-let gameOver = false;
-let gameInterval = null;
-let groundInterval = null;
-let gameSpeed = 5000;
 
 //main function
 function flappyTurd(){
@@ -33,33 +28,46 @@ function flappyTurd(){
 
   //set event handlers
   $(window).on('click', flyTurd);
-  $(window).on('load', dropTurd);
   $(window).keypress(flyTurd);
-
-  groundInterval = setInterval(slideGround, gameSpeed);
-  createObstacle();
-  gameInterval = setInterval(createObstacle, gameSpeed);
 
   // function for making turd fall
   function dropTurd(){
-    $turd.animate({marginTop: '550'},1000,'linear');
+    const floor = 550; //this is because the level height is 600px and turd height is 50px
+
+    turdYPos = parseInt($turd.css('margin-top'));
+    if(turdYPos === floor){
+      stopTurd();
+    } else {
+      turdYPos = turdYPos + 10;
+      setDOMTurdVerticalPosition();
+    }
   }
 
   // function for making turd fly
   function flyTurd(){
-    $turd.stop();
-    $turd.animate({marginTop: '-=60'},1,'linear');
-    dropTurd();
+    const ceiling = 30;
+
+    if(turdYPos <= ceiling){
+      stopTurd();
+
+    } else {
+      turdYPos = turdYPos -50;
+      setDOMTurdVerticalPosition();
+    }
   }
 
-  //function to stop game
-  function stopGame(){
-    $turd.stop();
-    $obstacle.stop();
-    clearInterval(gameInterval);
-    clearInterval(groundInterval);
+  //function to stop turd moving
+  function stopTurd(){
+    clearInterval(movingTurd);
+    clearInterval(movingObstacle);
+    clearInterval(movingGround);
     $audio.attr('src','sounds/splat.wav');
     $audio.trigger('play');
+  }
+
+  //function to set turd's vertical position
+  function setDOMTurdVerticalPosition(){
+    $turd.css('margin-top', `${turdYPos}px`);
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
@@ -78,7 +86,6 @@ function flappyTurd(){
     $(`ul li#${randomNo2}`).css('background-color','transparent');
 
     flyableZone(randomNo1,randomNo2);
-    slideObstacle();
   }
 
   function flyableZone(portion1, portion2){
@@ -92,36 +99,35 @@ function flappyTurd(){
 
   //function to slide obstacle into view from right of screen to left and then loop
   function slideObstacle(){
-    $obstacle.animate({
-      'left': '-150'
-    },{
-      duration: gameSpeed,
-      easing: 'linear',
-      complete: function() {
-        $obstacle.css('left','2000px');
-      },
-      step: detectCollision
-    });
-  }
+    obstXPos = parseInt($obstacle.css('margin-left'));
 
+    //create new obstacle when the obstacle's margin-left is 2000px
+    if (obstXPos === 2000){
+      createObstacle();
+    }
+
+    if (obstXPos <= -250){ //i.e. obstacle has moved off-screen left
+      obstXPos = 2000; //i.e. bring it back off-screen right - this causes the loop effect
+    } else {
+      obstXPos = obstXPos - 1;
+    }
+
+    $obstacle.css('margin-left',`${obstXPos}px`);
+
+    detectCollision();
+  }
 
   //function to slide the ground
   function slideGround(){
-    $ground.animate({backgroundPosition: '-='+5},1,'linear',slideGround);
+    groundXPos--;
+    $ground.css('background-position', `${groundXPos}px 0`);
   }
 
   //function for collision detection
   function detectCollision(){
-    obstXPos = parseInt($obstacle.css('left'));
-    turdYPos = parseInt($turd.css('margin-top'));
-
-    console.log(obstXPos);
-    console.log(turdYPos);
 
     if ( ((turdYPos <= (flyZone[0][0])) || (turdYPos >= (flyZone[1][1])-50) ) && (obstXPos <= 400) ) {
-      //collision!
-      console.log('returned true');
-      stopGame();
+      stopTurd();
     }
 
     if (obstXPos+150 === turdXPos) {
@@ -134,15 +140,19 @@ function flappyTurd(){
 
   //function for incrementing the score each time an obstacle is passed
   function incrementScore(){
+    console.log(obstXPos);
+    console.log(turdXPos);
     let score = parseInt($score.html());
 
     score++;
     $score.html(score);
-
-    if ( (score % 5) === 0 ) {
-      level++;
-    }
   }
+
+  //$audio.attr('src','sounds/Theme.mp3');
+  //$audio.trigger('play');
+  const movingTurd = setInterval(dropTurd, 50);
+  const movingObstacle = setInterval(slideObstacle,1); //move every 1milisecs to give smooth illusion of moving
+  const movingGround = setInterval(slideGround,1);
 }
 
 $(flappyTurd);
