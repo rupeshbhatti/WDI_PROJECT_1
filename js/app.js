@@ -38,6 +38,10 @@ function flappyTurd(){
 
   //set event handlers
   $(window).on('load', dropTurd);
+  $(window).on('load', function(){
+    $audio.attr('src','sounds/The-Treasure-NES.mp3');
+    $audio.trigger('play');
+  });
   $(window).on('click', flyTurd);
   $(window).keypress(flyTurd);
 
@@ -50,8 +54,9 @@ function flappyTurd(){
     $turd.animate({
       bottom: '120px'
     }, {
-      duration: 3000,
-      step: detectCollision
+      duration: 1000,
+      step: detectCollision,
+      easing: 'easeInOutSine'
     });
   }
 
@@ -59,10 +64,11 @@ function flappyTurd(){
   function flyTurd(){
     $turd.stop();
     $turd.animate({
-      bottom: '+=100px'
+      bottom: '+=50px'
     }, {
-      duration: 1,
-      step: detectCollision
+      duration: 50,
+      step: detectCollision,
+      easing: 'easeInQuart'
     });
 
     dropTurd();
@@ -72,6 +78,8 @@ function flappyTurd(){
   function stopGame(){
     $turd.stop();
     $obstacle.stop();
+    $audio.trigger('pause');
+    $audio.currentTime = 0;
     clearInterval(gameInterval);
     clearInterval(groundInterval);
     // $audio.attr('src','sounds/splat.wav');
