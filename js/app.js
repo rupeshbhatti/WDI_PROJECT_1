@@ -1,19 +1,18 @@
-// flappy turd
-
-// Welcome screen with instructions
-// On page load, ask the player if they are ready - press a start button to start (initialise game)
-// Once start button has been clicked, show flappy turd starting to fall (add click event handler on load)
-// fly each time mouse clicked
-// fall each time mouse not clicked
-// Display animated obstacles moving from right of screen to left
-// Win logic - increment score each time an obstacle is successfully passed
-// Collision logic + game over / restart
-// Animations / character + graphics (libraries such as phaser.io?)
-
 //define global variables
-let turdYPos;
-let obstXPos;
-let groundXPos = 0;
+
+//turd
+let $turd;
+let $turdXPos;
+let $turdYPos;
+
+//obstacle
+let $obstacle;
+let $obstXPos;
+
+//level
+let $ground;
+let $audio;
+let $score;
 let flyZone = [];
 let level = 2;
 let gameOver = false;
@@ -23,32 +22,48 @@ let gameSpeed = 5000;
 
 //main function
 function flappyTurd(){
-  const $turd = $('#turd');
-  const $level = $('main');
-  const $ground = $('footer');
-  const $obstacle = $('ul');
-  const $audio = $('audio');
-  const $score = $('#score');
-  const turdXPos = parseInt($turd.css('margin-left'));
+
+  //turd
+  $turd = $('#turd');
+  $turdXPos = parseInt($turd.css('left'));
+
+  //obstacle
+  $obstacle = $('ul');
+
+  //level
+  $ground = $('footer');
+  let $audio = $('audio');
+  let $score = $('#score');
 
   //set event handlers
-  $(window).on('click', flyTurd);
   $(window).on('load', dropTurd);
+  $(window).on('click', flyTurd);
   $(window).keypress(flyTurd);
 
-  groundInterval = setInterval(slideGround, gameSpeed);
+  //  groundInterval = setInterval(slideGround, gameSpeed);
   createObstacle();
   gameInterval = setInterval(createObstacle, gameSpeed);
 
   // function for making turd fall
   function dropTurd(){
-    $turd.animate({marginTop: '550'},1000,'linear');
+    $turd.animate({
+      bottom: '-10px'
+    }, {
+      duration: 3000,
+      step: detectCollision
+    });
   }
 
   // function for making turd fly
   function flyTurd(){
     $turd.stop();
-    $turd.animate({marginTop: '-=60'},1,'linear');
+    $turd.animate({
+      bottom: '+=100px'
+    }, {
+      duration: 1,
+      step: detectCollision
+    });
+
     dropTurd();
   }
 
@@ -57,9 +72,9 @@ function flappyTurd(){
     $turd.stop();
     $obstacle.stop();
     clearInterval(gameInterval);
-    clearInterval(groundInterval);
-    $audio.attr('src','sounds/splat.wav');
-    $audio.trigger('play');
+    //clearInterval(groundInterval);
+    // $audio.attr('src','sounds/splat.wav');
+    // $audio.trigger('play');
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
@@ -71,23 +86,32 @@ function flappyTurd(){
     //set background-color for all to mediumseagreen initially
     for (let i = 1; i < 7; i++) {
       //set background-color
+      $(`ul li#${[i]}`).removeClass('flyable');
+      $(`ul li#${[i]}`).addClass('not-flyable');
       $(`ul li#${[i]}`).css('background-color','mediumseagreen');
     }
-    // set the background-color for randomNo and randomNo2 to transparent
-    $(`ul li#${randomNo1}`).css('background-color','transparent');
-    $(`ul li#${randomNo2}`).css('background-color','transparent');
 
     flyableZone(randomNo1,randomNo2);
     slideObstacle();
   }
 
   function flyableZone(portion1, portion2){
-    const portionHeight = ($obstacle.height())/6;
-    const zones = {'1': [0,portionHeight], '2': [portionHeight,portionHeight*2], '3': [portionHeight*2,portionHeight*3], '4': [portionHeight*3,portionHeight*4], '5': [portionHeight*4,portionHeight*5], '6': [portionHeight*5,portionHeight*6]};
+    // const portionHeight = ($obstacle.height())/6;
+    // const zones = {'1': [0,portionHeight], '2': [portionHeight,portionHeight*2], '3': [portionHeight*2,portionHeight*3], '4': [portionHeight*3,portionHeight*4], '5': [portionHeight*4,portionHeight*5], '6': [portionHeight*5,portionHeight*6]};
+    //
+    // // set the flyableZone
+    // flyZone[0] = (zones[portion1]);
+    // flyZone[1] = (zones[portion2]);
 
-    // set the flyableZone
-    flyZone[0] = (zones[portion1]);
-    flyZone[1] = (zones[portion2]);
+    // set the background-color for randomNo and randomNo2 to transparent
+    $(`ul li#${portion1}`).css('background-color','transparent');
+    $(`ul li#${portion2}`).css('background-color','transparent');
+    $(`ul li#${[portion1]}`).addClass('flyable');
+    $(`ul li#${[portion2]}`).addClass('flyable');
+
+    // set the class for portion1 and portion2 to flyable
+    $(`ul li#${portion1}`).removeClass('not-flyable');
+    $(`ul li#${portion2}`).removeClass('not-flyable');
   }
 
   //function to slide obstacle into view from right of screen to left and then loop
@@ -99,8 +123,7 @@ function flappyTurd(){
       easing: 'linear',
       complete: function() {
         $obstacle.css('left','2000px');
-      },
-      step: detectCollision
+      }
     });
   }
 
@@ -112,24 +135,33 @@ function flappyTurd(){
 
   //function for collision detection
   function detectCollision(){
-    obstXPos = parseInt($obstacle.css('left'));
-    turdYPos = parseInt($turd.css('margin-top'));
+    const $lisToBlock = $('.not-flyable');
+  console.log($lisToBlock.length)
+    const $div1 = $(this);
+    for (let i = 0; i < $lisToBlock.length; i++) {
+      const $div2 = $($lisToBlock[i]);
+      var x1 = $div1.offset().left;
+      var y1 = $div1.offset().top;
+      var h1 = $div1.outerHeight(true);
+      var w1 = $div1.outerWidth(true);
+      var b1 = y1 + h1;
+      var r1 = x1 + w1;
+      var x2 = $div2.offset().left;
+      var y2 = $div2.offset().top;
+      var h2 = $div2.outerHeight(true);
+      var w2 = $div2.outerWidth(true);
+      var b2 = y2 + h2;
+      var r2 = x2 + w2;
 
-    console.log(obstXPos);
-    console.log(turdYPos);
-
-    if ( ((turdYPos <= (flyZone[0][0])) || (turdYPos >= (flyZone[1][1])-50) ) && (obstXPos <= 400) ) {
-      //collision!
-      console.log('returned true');
-      stopGame();
+      if (b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2){
+        //console.log(false);
+      } else {
+        console.log('HIT');
+        $div2.css('background', 'red');
+        stopGame();
+      }
     }
 
-    if (obstXPos+150 === turdXPos) {
-      incrementScore();
-      //reset the flyZone
-      flyZone[0][0] = 0;
-      flyZone[1][1] = $obstacle.height();
-    }
   }
 
   //function for incrementing the score each time an obstacle is passed
@@ -139,9 +171,9 @@ function flappyTurd(){
     score++;
     $score.html(score);
 
-    if ( (score % 5) === 0 ) {
-      level++;
-    }
+    // if ( (score % 5) === 0 ) {
+    //   level++;
+    // }
   }
 }
 
