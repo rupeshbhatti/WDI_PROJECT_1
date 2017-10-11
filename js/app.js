@@ -42,8 +42,8 @@ function flappyTurd(){
   $(window).keypress(flyTurd);
 
   //groundInterval = setInterval(slideGround, gameSpeed);
-  //createObstacle();
-  //gameInterval = setInterval(createObstacle, gameSpeed);
+  createObstacle();
+  gameInterval = setInterval(createObstacle, gameSpeed);
 
   // function for making turd fall
   function dropTurd(){
@@ -163,6 +163,8 @@ function flappyTurd(){
 
     level++;
     $level.html(level);
+    $('#level-board').addClass('animated slideInRight');
+    console.log($level);
     gameSpeed = gameSpeed - 1000;
   }
 
@@ -172,6 +174,9 @@ function flappyTurd(){
 
     score++;
     $score.html(score);
+    $('#score-board').addClass('animated bounce');
+    $('#score-board').removeClass('animated bounce');
+
 
     if ( (score % 5) === 0 ) {
       levelUp();
