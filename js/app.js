@@ -14,6 +14,8 @@ let $ground;
 let $audio;
 let $score;
 let $level;
+let $splat;
+let $gameOver;
 let flyZone = [];
 let gameOver = false;
 let gameInterval = null;
@@ -33,6 +35,8 @@ function flappyTurd(){
   //level
   $ground = $('footer');
   $level = $('#level');
+  $splat = $('#splat').hide();
+  $gameOver = $('#game-over').hide();
   let $audio = $('audio');
   let $score = $('#score');
 
@@ -44,6 +48,10 @@ function flappyTurd(){
   });
   $(window).on('click', flyTurd);
   $(window).keypress(flyTurd);
+
+  $('#clouds').pan({fps: 30, speed: 4, dir: 'left'});
+  $('#trees').pan({fps: 30, speed: 2, dir: 'left'});
+
 
   //groundInterval = setInterval(slideGround, gameSpeed);
   createObstacle();
@@ -71,19 +79,33 @@ function flappyTurd(){
       easing: 'easeInQuart'
     });
 
+    //play swish sound effect
+    const soundEffect = new Audio('sounds/Swish.mp3');
+    soundEffect.play();
+
     dropTurd();
+  }
+
+  //function to detect whether audio is playing
+  function isPlaying(audioelement){
+    return !audioelement.paused;
   }
 
   //function to stop game
   function stopGame(){
     $turd.stop();
     $obstacle.stop();
-    $audio.trigger('pause');
-    $audio.currentTime = 0;
+    $splat.toggle();
+    $gameOver.toggle();
+    if (isPlaying($audio)){
+      $audio.trigger('pause');
+      $audio.currentTime = 0;
+      $audio.attr('src','sounds/Splat.wav');
+      $audio.trigger('play');
+    }
     clearInterval(gameInterval);
     clearInterval(groundInterval);
-    // $audio.attr('src','sounds/splat.wav');
-    // $audio.trigger('play');
+
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
@@ -170,10 +192,14 @@ function flappyTurd(){
     let level = parseInt($level.html());
 
     level++;
-    $level.html(level);
-    $('#level-board').addClass('animated slideInRight');
-    console.log($level);
+    $('#level-board').attr('class','animated slideInRight');
     gameSpeed = gameSpeed - 1000;
+    $level.html(level);
+    $('#level-board').removeClass('animated slideInRight');
+
+    //play level-up sound effect
+    const soundEffect = new Audio('sounds/Level-up.wav');
+    soundEffect.play();
   }
 
   //function for incrementing the score each time an obstacle is passed
@@ -182,9 +208,9 @@ function flappyTurd(){
 
     score++;
     $score.html(score);
-    $('#score-board').addClass('animated bounce');
-    $('#score-board').removeClass('animated bounce');
-
+    //play score sound effect
+    const soundEffect = new Audio('sounds/Score.wav');
+    soundEffect.play();
 
     if ( (score % 5) === 0 ) {
       levelUp();
