@@ -61,7 +61,7 @@ function flappyTurd(){
     });
     $(window).on('click', flyTurd);
     $(window).keypress(flyTurd);
-    $('button').on('click', () =>{
+    $flyAgain.on('click', () =>{
       location.reload();
     });
 
@@ -78,7 +78,8 @@ function flappyTurd(){
     }, {
       duration: 1000,
       step: detectCollision,
-      easing: 'easeInOutSine'
+      easing: 'easeInOutSine',
+      complete: stopGame
     });
   }
 
@@ -92,7 +93,14 @@ function flappyTurd(){
     }, {
       duration: 50,
       step: detectCollision,
-      easing: 'easeInQuart'
+      easing: 'easeInQuart',
+      complete: function() {
+
+        console.log($(this).css('top'));
+        if (($(this).css('top')) <= '200px') {
+          stopGame();
+        }
+      }
     });
 
     soundEffect.play();
@@ -109,7 +117,7 @@ function flappyTurd(){
     $('#clouds, #trees, #hills, footer').spStop();
     gameMusic.pause();
     clearInterval(gameInterval);
-    $messageArea.toggle();
+    $messageArea.show();
     splat.play();
   }
 
