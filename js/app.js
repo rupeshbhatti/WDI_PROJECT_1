@@ -1,67 +1,45 @@
-//define global variables
-
-//turd
+//global variables
 let $turd;
-let $turdXPos;
-let $turdYPos;
-
-//obstacle
 let $obstacle;
-let $obstXPos;
-
-//level
-let $ground;
 let $audio;
 let $score;
 let $level;
-let $splat;
-let $gameOver;
-let flyZone = [];
-let gameOver = false;
+// let $splat;
+// let $gameOver;
 let gameInterval = null;
-let groundInterval = null;
 let gameSpeed = 5000;
 
 //main function
 function flappyTurd(){
-
-  //turd
   $turd = $('#turd');
-  $turdXPos = parseInt($turd.css('left'));
-
-  //obstacle
   $obstacle = $('ul');
-
-  //level
-  $ground = $('footer');
+  $audio = $('audio');
+  $score = $('#score');
   $level = $('#level');
-  $splat = $('#splat').hide();
-  $gameOver = $('#game-over').hide();
-  let $audio = $('audio');
-  let $score = $('#score');
+  // $splat = $('#splat').hide();
+  // $gameOver = $('#game-over').hide();
 
   //set event handlers
-  $(window).on('load', dropTurd);
-  $(window).on('load', function(){
+  $(window).on('load', () => {
+    dropTurd();
     $audio.attr('src','sounds/The-Treasure-NES.mp3');
     $audio.trigger('play');
   });
   $(window).on('click', flyTurd);
   $(window).keypress(flyTurd);
 
+  //animate background
   $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
   $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
   $('#hills').pan({fps: 30, speed: gameSpeed/5, dir: 'left'});
   $('footer').pan({fps: 100, speed: gameSpeed, dir: 'left'});
   $('#clouds, #trees, #hills, footer').spRelSpeed(30);
 
-
-  //groundInterval = setInterval(slideGround, gameSpeed);
-  createObstacle();
   gameInterval = setInterval(createObstacle, gameSpeed);
 
   // function for making turd fall
   function dropTurd(){
+    // $turd.css('transform','rotate(180deg)');
     $turd.animate({
       bottom: '120px'
     }, {
@@ -81,11 +59,8 @@ function flappyTurd(){
       step: detectCollision,
       easing: 'easeInQuart'
     });
-
-    //play swish sound effect
     const soundEffect = new Audio('sounds/Swish.mp3');
     soundEffect.play();
-
     dropTurd();
   }
 
@@ -98,8 +73,8 @@ function flappyTurd(){
   function stopGame(){
     $turd.stop();
     $obstacle.stop();
-    $splat.toggle();
-    $gameOver.toggle();
+    // $splat.toggle();
+    // $gameOver.toggle();
     $('#clouds, #trees, #hills, footer').spStop();
     if (isPlaying($audio)){
       $audio.trigger('pause');
@@ -107,42 +82,45 @@ function flappyTurd(){
       $audio.attr('src','sounds/Splat.wav');
       $audio.trigger('play');
     }
-    clearInterval(gameInterval);
-    clearInterval(groundInterval);
 
+    clearInterval(gameInterval);
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
   function createObstacle(){
-    //generate a random number between 0 and 5
-    const randomNo1 = Math.floor(Math.random() * (5)) + 1;
+
+    //function to generate a random number between min and max value
+    function generateRandomNum(min,max){
+      return (Math.floor(Math.random() * (max)) + min);
+    }
+
+    const randomNo1 = generateRandomNum(1,5);
     const randomNo2 = randomNo1 + 1;
 
-    //set background-color for all to mediumseagreen initially
     for (let i = 1; i < 7; i++) {
-      //set background-color
-      $(`ul li#${[i]}`).removeClass('flyable');
-      $(`ul li#${[i]}`).addClass('not-flyable');
-      $(`ul li#${[i]}`).css('background-image','url(images/shrub.jpg)');
+      $(`ul li#${[i]}`)
+        .removeClass('flyable')
+        .addClass('not-flyable')
+        .css('background-image','url(images/shrub.jpg)');
     }
 
     flyableZone(randomNo1,randomNo2);
     slideObstacle();
   }
 
+  //function to set the flyable zone within the obstacle
   function flyableZone(portion1, portion2){
-    $(`ul li#${portion1}`).css('background-color','transparent');
-    $(`ul li#${portion2}`).css('background-color','transparent');
 
-    $(`ul li#${portion1}`).css('background-image','none');
-    $(`ul li#${portion2}`).css('background-image','none');
+    function makeLiFlyable(li){
+      $(`ul li#${li}`)
+        .css('background-color','transparent')
+        .css('background-image','none')
+        .addClass('flyable')
+        .removeClass('not-flyable');
+    }
 
-    $(`ul li#${[portion1]}`).addClass('flyable');
-    $(`ul li#${[portion2]}`).addClass('flyable');
-
-    // set the class for portion1 and portion2 to flyable
-    $(`ul li#${portion1}`).removeClass('not-flyable');
-    $(`ul li#${portion2}`).removeClass('not-flyable');
+    makeLiFlyable(portion1);
+    makeLiFlyable(portion2);
 
   }
 
@@ -158,11 +136,6 @@ function flappyTurd(){
         $obstacle.css('left','2000px');
       }
     });
-  }
-
-  //function to slide the ground
-  function slideGround(){
-    $ground.animate({backgroundPosition: '-='+5},1,'linear',slideGround);
   }
 
   //function to detect a collision
@@ -189,7 +162,7 @@ function flappyTurd(){
         //no collision
       } else {
         //collision
-        $div2.css('background', 'red');
+        $div2.attr('class','animated jello');
         stopGame();
       }
     }
