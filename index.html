@@ -8,6 +8,7 @@
     <script src="js/jquery.easing.1.3.js" charset="utf-8"></script>
     <script src="js/jquery.spritely.js" charset="utf-8"></script>
     <link rel="stylesheet" href="css/reset.css">
+    <!-- <link rel="stylesheet" href="css/debug.css"> -->
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/app.js" charset="utf-8"></script>
@@ -16,19 +17,27 @@
     <header>
       <audio>
       </audio>
-      <h1 class="animated zoomInDown">Fl&#x1f4a9ppy Turd</h1>
-      <span><img src="images/GA.png" alt=""></span>
+      <div>
+        <h1 class="animated zoomInDown">Fl&#x1f4a9ppy Turd</h1>
+        <img id="ga" src="images/GA.png" alt="">
+      </div>
+      <div id="score-board">
+        <span id="score">0</span>
+        <div id="level-board" class="animated slideInDown">Level <span id="level">1</span></div>
+      </div>
     </header>
     <main>
-      <div>
+      <!-- <div>
         <p id="game-over">Game over! Better luck next time!</p>
         <img id='splat' class='animated fadeIn' src="images/splat.png">
-      </div>
-      <div id="level-board" class="animated slideInDown">Level <span id="level">1</span></div>
-      <div id="score-board"><span id="score">0</span></div>
+      </div> -->
       <div class="centered">
         <div id="turd">&#x1f4a9</div>
       </div>
+      <div id="clouds">
+      </div>
+      <div id="trees"></div>
+      <div id="hills"></div>
       <ul>
         <li id="1" class="obstacle"></li>
         <li id="2" class="obstacle"></li>
@@ -37,8 +46,8 @@
         <li id="5" class="obstacle"></li>
         <li id="6" class="obstacle"></li>
       </ul>
+      <footer>
+      </footer>
     </main>
-    <footer>
-    </footer>
   </body>
 </html>

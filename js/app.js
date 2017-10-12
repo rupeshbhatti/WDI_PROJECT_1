@@ -49,8 +49,11 @@ function flappyTurd(){
   $(window).on('click', flyTurd);
   $(window).keypress(flyTurd);
 
-  $('#clouds').pan({fps: 30, speed: 4, dir: 'left'});
-  $('#trees').pan({fps: 30, speed: 2, dir: 'left'});
+  $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
+  $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
+  $('#hills').pan({fps: 30, speed: gameSpeed/5, dir: 'left'});
+  $('footer').pan({fps: 30, speed: gameSpeed, dir: 'left'});
+  $('#clouds, #trees, #hills, footer').spRelSpeed(30);
 
 
   //groundInterval = setInterval(slideGround, gameSpeed);
