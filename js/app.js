@@ -5,8 +5,7 @@ let $score;
 let $level;
 let $messageArea;
 let $flyAgain;
-// let $splat;
-// let $gameOver;
+let $countdown;
 let gameInterval = null;
 let gameSpeed = 5000;
 let gameMusic = null;
@@ -19,6 +18,7 @@ function flappyTurd(){
   $level = $('#level');
   $messageArea = $('.message-area');
   $flyAgain = $('button');
+  $countdown = $('#countdown');
 
   init();
 
@@ -39,6 +39,21 @@ function flappyTurd(){
       $('#clouds, #trees, #hills, footer').spRelSpeed(30);
     }
 
+    //function that begins game start countdown
+    function countdown(){
+
+      const cdInterval = setInterval( ()=> {
+        let cd = parseInt($countdown.html());
+        cd -=1;
+        $countdown.html(cd);
+
+        if (cd === 0){
+          clearInterval(cdInterval);
+          $countdown.toggle();
+        }
+      },1000);
+    }
+
     $messageArea.css('display','none');
     $(window).on('load', () => {
       playGameMusic();
@@ -52,6 +67,7 @@ function flappyTurd(){
 
     animateBackground();
     gameInterval = setInterval(createObstacle, gameSpeed);
+    countdown();
   }
 
   // function for making turd fall
