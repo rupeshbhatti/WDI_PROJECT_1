@@ -52,7 +52,7 @@ function flappyTurd(){
   $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
   $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
   $('#hills').pan({fps: 30, speed: gameSpeed/5, dir: 'left'});
-  $('footer').pan({fps: 30, speed: gameSpeed, dir: 'left'});
+  $('footer').pan({fps: 100, speed: gameSpeed, dir: 'left'});
   $('#clouds, #trees, #hills, footer').spRelSpeed(30);
 
 
@@ -122,7 +122,7 @@ function flappyTurd(){
       //set background-color
       $(`ul li#${[i]}`).removeClass('flyable');
       $(`ul li#${[i]}`).addClass('not-flyable');
-      $(`ul li#${[i]}`).css('background-color','mediumseagreen');
+      $(`ul li#${[i]}`).css('background-image','url(images/shrub.jpg)');
     }
 
     flyableZone(randomNo1,randomNo2);
@@ -132,6 +132,10 @@ function flappyTurd(){
   function flyableZone(portion1, portion2){
     $(`ul li#${portion1}`).css('background-color','transparent');
     $(`ul li#${portion2}`).css('background-color','transparent');
+
+    $(`ul li#${portion1}`).css('background-image','none');
+    $(`ul li#${portion2}`).css('background-image','none');
+
     $(`ul li#${[portion1]}`).addClass('flyable');
     $(`ul li#${[portion2]}`).addClass('flyable');
 
