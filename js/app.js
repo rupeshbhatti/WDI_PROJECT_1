@@ -51,6 +51,8 @@ function flappyTurd(){
 
   // function for making turd fly
   function flyTurd(){
+    const soundEffect = new Audio('sounds/Swish.mp3');
+
     $turd.stop();
     $turd.animate({
       bottom: '+=50px'
@@ -59,7 +61,7 @@ function flappyTurd(){
       step: detectCollision,
       easing: 'easeInQuart'
     });
-    const soundEffect = new Audio('sounds/Swish.mp3');
+
     soundEffect.play();
     dropTurd();
   }
@@ -168,33 +170,32 @@ function flappyTurd(){
     }
   }
 
-  // function for upping the level
-  function levelUp(){
-    let level = parseInt($level.html());
+  // function for incrementing the level
+  function incrementLevel(){
+    let currentLevel = parseInt($level.html());
+    const newLevel = ++currentLevel;
+    const soundEffect = new Audio('sounds/Level-up.wav');
 
-    level++;
     $('#level-board').attr('class','animated slideInRight');
     gameSpeed = gameSpeed - 1000;
-    $level.html(level);
+    $level.html(newLevel);
     $('#level-board').removeClass('animated slideInRight');
 
-    //play level-up sound effect
-    const soundEffect = new Audio('sounds/Level-up.wav');
     soundEffect.play();
   }
 
   //function for incrementing the score each time an obstacle is passed
   function incrementScore(){
-    let score = parseInt($score.html());
-
-    score++;
-    $score.html(score);
-    //play score sound effect
+    let currentScore = parseInt($score.html());
+    const newScore = ++currentScore;
     const soundEffect = new Audio('sounds/Score.wav');
+
+    $score.html(newScore);
+
     soundEffect.play();
 
-    if ( (score % 5) === 0 ) {
-      levelUp();
+    if ( (newScore % 5) === 0 ) {
+      incrementLevel();
     }
   }
 }
