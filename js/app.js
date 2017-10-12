@@ -4,6 +4,8 @@ let $obstacle;
 let $audio;
 let $score;
 let $level;
+let $messageArea;
+let $flyAgain;
 // let $splat;
 // let $gameOver;
 let gameInterval = null;
@@ -16,26 +18,41 @@ function flappyTurd(){
   $audio = $('audio');
   $score = $('#score');
   $level = $('#level');
-  // $splat = $('#splat').hide();
-  // $gameOver = $('#game-over').hide();
+  $messageArea = $('.message-area');
+  $flyAgain = $('button');
 
-  //set event handlers
-  $(window).on('load', () => {
-    dropTurd();
-    $audio.attr('src','sounds/The-Treasure-NES.mp3');
-    $audio.trigger('play');
-  });
-  $(window).on('click', flyTurd);
-  $(window).keypress(flyTurd);
+  init();
 
-  //animate background
-  $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
-  $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
-  $('#hills').pan({fps: 30, speed: gameSpeed/5, dir: 'left'});
-  $('footer').pan({fps: 100, speed: gameSpeed, dir: 'left'});
-  $('#clouds, #trees, #hills, footer').spRelSpeed(30);
+  // function to initialise click handlers, game music, backgrounds and game ready for play
+  function init(){
 
-  gameInterval = setInterval(createObstacle, gameSpeed);
+    function playGameMusic(){
+      $audio.attr('src','sounds/The-Treasure-NES.mp3');
+      $audio.trigger('play');
+    }
+
+    function animateBackground(){
+      $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
+      $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
+      $('#hills').pan({fps: 30, speed: gameSpeed/5, dir: 'left'});
+      $('footer').pan({fps: 100, speed: gameSpeed, dir: 'left'});
+      $('#clouds, #trees, #hills, footer').spRelSpeed(30);
+    }
+
+    $messageArea.css('display','none');
+    $(window).on('load', () => {
+      playGameMusic();
+      dropTurd();
+    });
+    $(window).on('click', flyTurd);
+    $(window).keypress(flyTurd);
+    $('button').on('click', () =>{
+      location.reload();
+    });
+
+    animateBackground();
+    gameInterval = setInterval(createObstacle, gameSpeed);
+  }
 
   // function for making turd fall
   function dropTurd(){
@@ -74,9 +91,8 @@ function flappyTurd(){
   //function to stop game
   function stopGame(){
     $turd.stop();
+    $(window).unbind();
     $obstacle.stop();
-    // $splat.toggle();
-    // $gameOver.toggle();
     $('#clouds, #trees, #hills, footer').spStop();
     if (isPlaying($audio)){
       $audio.trigger('pause');
@@ -84,8 +100,8 @@ function flappyTurd(){
       $audio.attr('src','sounds/Splat.wav');
       $audio.trigger('play');
     }
-
     clearInterval(gameInterval);
+    $messageArea.toggle();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone

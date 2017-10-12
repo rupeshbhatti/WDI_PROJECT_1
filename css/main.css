@@ -6,7 +6,7 @@ body{
 header {
   background-color: LightSkyBlue;
   height:30%;
-  z-index:1000;
+  z-index:5000;
 }
 
 h1 {
@@ -23,7 +23,6 @@ h1 {
 
 main {
   height: 70%;
-  background-color: green;
 }
 
 #score-board {
@@ -33,9 +32,9 @@ main {
   margin:auto;
   padding:15px 0 15px;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  box-shadow: 0 4px 100px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: white;
   z-index:2000;
+  box-shadow: 0 4px 100px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #score {
@@ -136,6 +135,25 @@ li {
   width:100%;
   height: 102px;
   border-radius:10px;
+}
+
+.message-area{
+  font-family: 'Lato', sans-serif;
+  font-size: 50px;
+  font-weight:600;
+  color:white;
+  text-align:center;
+  background-color:rgba(0,0,0,0.6);
+  z-index: 5000;
+  top:30%;
+  left:22%;
+  position:absolute;
+  padding: 100px 100px;
+  border: 5px solid white;
+  border-radius:20px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  box-shadow: 0 4px 100px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
 }
 
 /*#splat{
