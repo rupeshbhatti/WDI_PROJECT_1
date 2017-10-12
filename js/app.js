@@ -1,7 +1,6 @@
 //global variables
 let $turd;
 let $obstacle;
-let $audio;
 let $score;
 let $level;
 let $messageArea;
@@ -10,12 +9,12 @@ let $flyAgain;
 // let $gameOver;
 let gameInterval = null;
 let gameSpeed = 5000;
+let gameMusic = null;
 
 //main function
 function flappyTurd(){
   $turd = $('#turd');
   $obstacle = $('ul');
-  $audio = $('audio');
   $score = $('#score');
   $level = $('#level');
   $messageArea = $('.message-area');
@@ -27,8 +26,9 @@ function flappyTurd(){
   function init(){
 
     function playGameMusic(){
-      $audio.attr('src','sounds/The-Treasure-NES.mp3');
-      $audio.trigger('play');
+      gameMusic = new Audio('sounds/The-Treasure-NES.mp3');
+
+      gameMusic.play();
     }
 
     function animateBackground(){
@@ -83,25 +83,18 @@ function flappyTurd(){
     dropTurd();
   }
 
-  //function to detect whether audio is playing
-  function isPlaying(audioelement){
-    return !audioelement.paused;
-  }
-
   //function to stop game
   function stopGame(){
+    const splat = new Audio('sounds/Splat.wav');
+
     $turd.stop();
     $(window).unbind();
     $obstacle.stop();
     $('#clouds, #trees, #hills, footer').spStop();
-    if (isPlaying($audio)){
-      $audio.trigger('pause');
-      $audio.currentTime = 0;
-      $audio.attr('src','sounds/Splat.wav');
-      $audio.trigger('play');
-    }
+    gameMusic.pause();
     clearInterval(gameInterval);
     $messageArea.toggle();
+    splat.play();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
