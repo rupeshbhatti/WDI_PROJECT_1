@@ -100,6 +100,7 @@ function flappyTurd(){
     $obstacle.stop();
     $splat.toggle();
     $gameOver.toggle();
+    $('#clouds, #trees, #hills, footer').spStop();
     if (isPlaying($audio)){
       $audio.trigger('pause');
       $audio.currentTime = 0;
