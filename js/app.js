@@ -58,9 +58,9 @@ function flappyTurd(){
     $(window).on('load', () => {
       playGameMusic();
       dropTurd();
-    });
-    $(window).on('click', flyTurd);
-    $(window).keypress(flyTurd);
+    })
+      .on('click', flyTurd)
+      .keypress(flyTurd);
     $flyAgain.on('click', () =>{
       location.reload();
     });
@@ -95,8 +95,6 @@ function flappyTurd(){
       step: detectCollision,
       easing: 'easeInQuart',
       complete: function() {
-
-        console.log($(this).css('top'));
         if (($(this).css('top')) <= '200px') {
           stopGame();
         }
