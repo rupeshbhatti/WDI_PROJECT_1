@@ -72,7 +72,7 @@ function flappyTurd(){
 
   // function for making turd fall
   function dropTurd(){
-    // $turd.css('transform','rotate(180deg)');
+    // $turd.css('transform','rotate(30deg)');
     $turd.animate({
       bottom: '120px'
     }, {
