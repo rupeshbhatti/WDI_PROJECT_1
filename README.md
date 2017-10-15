@@ -13,7 +13,7 @@ The idea behind the game is simple but hugely addictive. Using either mouseclick
 
 ![Screenshot](/screenshots/screenshot)
 
-![Screenshot2](/screenshots/screenshot2)
+![Screenshot2](/screenshots/Screenshot2)
 
 ## What went well
 
