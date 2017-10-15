@@ -1,4 +1,4 @@
-![](https://seeklogo.com/images/G/general-assembly-logo-D5C634F07A-seeklogo.com.png)
+![](https://www.coindesk.com/wp-content/themes/coindesk2/images/events/consensus-2015/sponsors-and-partners/general-assembly.png)
 # GA WDI30 Project 1: 'Flappy Turd'
 
 ## Introduction
