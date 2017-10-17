@@ -9,11 +9,22 @@ In week 3 of the Web Development Immersive course at General Assembly London, I 
 
 The idea behind the game is simple but hugely addictive. Using either mouseclicks or the spacebar, the user must keep Flappy Turd airborne. Each time an obstacle is successfully passed, the score is incremented: the game gets faster each time the user goes up a level. The game is set on a sunny day in an animated countryside setting. 
 
+## Libraries / external stylesheets used
+
+* Google fonts
+* Animate.css
+* Reset.css
+* Spritely JQuery Library
+* JQuery easing
+
 ## Screenshots
 
 ![Screenshot](/screenshots/screenshot)
 
 ![Screenshot2](/screenshots/Screenshot2)
+
+## Heroku Link
+[https://flappyturd.herokuapp.com/]()
 
 ## What went well
 
@@ -45,14 +56,6 @@ I would implement the following features in this game:
 4. **Mute Audio**
 5. **High Score** Either by persisting the score in the browser's memory or via backend integration
 6. **Weather API** Perhaps the more extravagant of these features: the ability to change the animated background based on the current weather outside
-
-## Libraries / external stylesheets used
-
-* Google fonts
-* Animate.css
-* Reset.css
-* Spritely JQuery Library
-* JQuery easing
 
 ## Final thoughts
 
