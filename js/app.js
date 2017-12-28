@@ -28,7 +28,7 @@ function flappyTurd(){
     function playGameMusic(){
       gameMusic = new Audio('sounds/The-Treasure-NES.mp3');
 
-      gameMusic.play();
+      gameMusic && gameMusic.play();
     }
 
     function animateBackground(){
@@ -110,13 +110,13 @@ function flappyTurd(){
     const splat = new Audio('sounds/Splat.wav');
 
     $turd.stop();
-    $(window).unbind();
     $obstacle.stop();
     $('#clouds, #trees, #hills, footer').spStop();
-    gameMusic.pause();
+    gameMusic && gameMusic.pause();
     clearInterval(gameInterval);
     $messageArea.show();
     splat.play();
+    $(window).unbind();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
