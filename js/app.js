@@ -25,12 +25,16 @@ function flappyTurd(){
   // function to initialise click handlers, game music, backgrounds and game ready for play
   function init(){
 
+    //function that plays game music
     function playGameMusic(){
-      gameMusic = new Audio('./sounds/The-Treasure-NES.mp3');
+      gameMusic = new Audio('sounds/The-Treasure-NES.mp3');
 
-      gameMusic && gameMusic.play();
+      gameMusic
+        .play()
+        .then(dropTurd());
     }
 
+    //function that animates the background
     function animateBackground(){
       $('#clouds').pan({fps: 1000, speed: gameSpeed, dir: 'left'});
       $('#trees').pan({fps: 500, speed: gameSpeed/3, dir: 'left'});
@@ -55,15 +59,17 @@ function flappyTurd(){
     }
 
     $messageArea.css('display','none');
-    $(window).on('load', () => {
-      playGameMusic();
-      dropTurd();
-    })
+    $(window)
+      .on('load', () => {
+        playGameMusic();
+      })
       .on('click', flyTurd)
       .keypress(flyTurd);
-    $flyAgain.on('click', () => {
-      location.reload();
-    });
+
+    $flyAgain
+      .on('click', () => {
+        location.reload();
+      });
 
     animateBackground();
     gameInterval = setInterval(createObstacle, gameSpeed);
@@ -85,38 +91,45 @@ function flappyTurd(){
 
   // function for making turd fly
   function flyTurd(){
-    const soundEffect = new Audio('./sounds/Swish.mp3');
+    const soundEffect = new Audio('sounds/Swish.mp3');
+    soundEffect
+      .play()
+      .then(() => {
+        $turd.stop();
+        $turd.animate({
+          bottom: '+=50px'
+        }, {
+          duration: 50,
+          step: detectCollision,
+          easing: 'easeInQuart',
+          complete: function() {
+            if (($(this).css('top')) <= '200px') {
+              stopGame();
+            }
+          }
+        });
 
-    $turd.stop();
-    $turd.animate({
-      bottom: '+=50px'
-    }, {
-      duration: 50,
-      step: detectCollision,
-      easing: 'easeInQuart',
-      complete: function() {
-        if (($(this).css('top')) <= '200px') {
-          stopGame();
-        }
-      }
-    });
+        dropTurd();
+      });
 
-    soundEffect.play();
-    dropTurd();
   }
 
   //function to stop game
   function stopGame(){
-//    const splat = new Audio('./sounds/Splat.wav');
+    const splat = new Audio('sounds/Splat.wav');
+    gameMusic.pause();
+    splat
+      .play()
+      .then(() => {
+        $turd.stop();
+        $obstacle.stop();
+        $('#clouds, #trees, #hills, footer').spStop();
+        clearInterval(gameInterval);
+        $messageArea.show();
+        $(window).unbind();
+      })
+      .catch(err => console.log(err));
 
-    $turd.stop();
-    $obstacle.stop();
-    $('#clouds, #trees, #hills, footer').spStop();
-    gameMusic && gameMusic.pause();
-    clearInterval(gameInterval);
-    $messageArea.show();
-  //  splat && splat.play();
-    $(window).unbind();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
@@ -205,7 +218,7 @@ function flappyTurd(){
   function incrementLevel(){
     let currentLevel = parseInt($level.html());
     const newLevel = ++currentLevel;
-    const soundEffect = new Audio('./sounds/Level-up.wav');
+    const soundEffect = new Audio('sounds/Level-up.wav');
 
     $('#level-board').attr('class','animated slideInRight');
     gameSpeed = gameSpeed - 1000;
@@ -219,7 +232,7 @@ function flappyTurd(){
   function incrementScore(){
     let currentScore = parseInt($score.html());
     const newScore = ++currentScore;
-    const soundEffect = new Audio('./sounds/Score.wav');
+    const soundEffect = new Audio('sounds/Score.wav');
 
     $score.html(newScore);
 
