@@ -26,7 +26,7 @@ function flappyTurd(){
   function init(){
 
     function playGameMusic(){
-      gameMusic = new Audio('sounds/The-Treasure-NES.mp3');
+      gameMusic = new Audio('./sounds/The-Treasure-NES.mp3');
 
       gameMusic && gameMusic.play();
     }
@@ -85,7 +85,7 @@ function flappyTurd(){
 
   // function for making turd fly
   function flyTurd(){
-    const soundEffect = new Audio('sounds/Swish.mp3');
+    const soundEffect = new Audio('./sounds/Swish.mp3');
 
     $turd.stop();
     $turd.animate({
@@ -107,7 +107,7 @@ function flappyTurd(){
 
   //function to stop game
   function stopGame(){
-    const splat = new Audio('sounds/Splat.wav');
+    const splat = new Audio('./sounds/Splat.wav');
 
     $turd.stop();
     $obstacle.stop();
@@ -205,7 +205,7 @@ function flappyTurd(){
   function incrementLevel(){
     let currentLevel = parseInt($level.html());
     const newLevel = ++currentLevel;
-    const soundEffect = new Audio('sounds/Level-up.wav');
+    const soundEffect = new Audio('./sounds/Level-up.wav');
 
     $('#level-board').attr('class','animated slideInRight');
     gameSpeed = gameSpeed - 1000;
@@ -219,7 +219,7 @@ function flappyTurd(){
   function incrementScore(){
     let currentScore = parseInt($score.html());
     const newScore = ++currentScore;
-    const soundEffect = new Audio('sounds/Score.wav');
+    const soundEffect = new Audio('./sounds/Score.wav');
 
     $score.html(newScore);
 
