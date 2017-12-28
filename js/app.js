@@ -61,7 +61,7 @@ function flappyTurd(){
     })
       .on('click', flyTurd)
       .keypress(flyTurd);
-    $flyAgain.on('click', () =>{
+    $flyAgain.on('click', () => {
       location.reload();
     });
 
