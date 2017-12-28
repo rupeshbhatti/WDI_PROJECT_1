@@ -115,7 +115,7 @@ function flappyTurd(){
     gameMusic && gameMusic.pause();
     clearInterval(gameInterval);
     $messageArea.show();
-    splat.play();
+    splat && splat.play();
     $(window).unbind();
   }
 
