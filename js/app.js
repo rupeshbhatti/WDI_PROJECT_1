@@ -107,7 +107,7 @@ function flappyTurd(){
 
   //function to stop game
   function stopGame(){
-    const splat = new Audio('./sounds/Splat.wav');
+//    const splat = new Audio('./sounds/Splat.wav');
 
     $turd.stop();
     $obstacle.stop();
