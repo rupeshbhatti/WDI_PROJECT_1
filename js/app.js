@@ -113,7 +113,7 @@ function flappyTurd(){
 
   //function to stop game
   function stopGame(){
-    soundEffect = new Audio('sounds/Splat.wav');
+    soundEffect = new Audio('sounds/splat.wav');
 
     $turd.stop();
     $(window).unbind();
