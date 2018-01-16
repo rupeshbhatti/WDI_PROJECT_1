@@ -114,6 +114,9 @@ function flappyTurd(){
   //function to stop game
   function stopGame(){
     soundEffect = new Audio('sounds/splat.wav');
+    console.log('splat played');
+
+
     $turd.stop();
     gameMusic.pause();
     soundEffect.play();
