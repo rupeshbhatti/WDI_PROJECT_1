@@ -113,7 +113,7 @@ function flappyTurd(){
 
   //function to stop game
   function stopGame(){
-    const splat = new Audio('sounds/Splat.wav');
+    soundEffect = new Audio('sounds/Splat.wav');
 
     $turd.stop();
     $(window).unbind();
@@ -122,7 +122,7 @@ function flappyTurd(){
     gameMusic.pause();
     clearInterval(gameInterval);
     $messageArea.show();
-    splat.play();
+    soundEffect.play();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
