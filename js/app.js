@@ -113,13 +113,13 @@ function flappyTurd(){
 
   //function to stop game
   function stopGame(){
-    soundEffect = new Audio('sounds/splat.wav');
+    // soundEffect = new Audio('sounds/splat.wav');
     console.log('splat played');
 
 
     $turd.stop();
     gameMusic.pause();
-    soundEffect.play();
+    // soundEffect.play();
     $obstacle.stop();
     $('#clouds, #trees, #hills, footer').spStop();
     clearInterval(gameInterval);
