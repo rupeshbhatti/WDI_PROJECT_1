@@ -9,6 +9,7 @@ let $countdown;
 let gameInterval = null;
 let gameSpeed = 5000;
 let gameMusic = null;
+let soundEffect = null;
 
 //main function
 function flappyTurd(){
@@ -90,7 +91,7 @@ function flappyTurd(){
 
   // function for making turd fly
   function flyTurd(){
-    const soundEffect = new Audio('sounds/Swish.mp3');
+    soundEffect = new Audio('sounds/Swish.mp3');
 
     $turd.stop();
     $turd.animate({
@@ -210,7 +211,7 @@ function flappyTurd(){
   function incrementLevel(){
     let currentLevel = parseInt($level.html());
     const newLevel = ++currentLevel;
-    const soundEffect = new Audio('sounds/Level-up.wav');
+    soundEffect = new Audio('sounds/Level-up.wav');
 
     $('#level-board').attr('class','animated slideInRight');
     gameSpeed = gameSpeed - 1000;
@@ -224,7 +225,7 @@ function flappyTurd(){
   function incrementScore(){
     let currentScore = parseInt($score.html());
     const newScore = ++currentScore;
-    const soundEffect = new Audio('sounds/Score.wav');
+    soundEffect = new Audio('sounds/Score.wav');
 
     $score.html(newScore);
 
