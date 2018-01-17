@@ -24,7 +24,7 @@ The idea behind the game is simple but hugely addictive. Using either mouseclick
 ![Screenshot2](/screenshots/Screenshot2)
 
 ## Heroku Link
-[https://flappyturd.herokuapp.com/]()
+[https://flappyturd-game.herokuapp.com/](https://flappyturd-game.herokuapp.com/)
 
 ## What went well
 
