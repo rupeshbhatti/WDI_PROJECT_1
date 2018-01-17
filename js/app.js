@@ -53,6 +53,10 @@ function flappyTurd(){
         if (cd === 0){
           clearInterval(cdInterval);
           $countdown.toggle();
+          dropTurd();
+          $(window)
+            .on('click', flyTurd)
+            .keypress(flyTurd);
         }
       },1000);
     }
@@ -61,10 +65,7 @@ function flappyTurd(){
     $(window)
       .on('load', () => {
         playGameMusic();
-        dropTurd();
-      })
-      .on('click', flyTurd)
-      .keypress(flyTurd);
+      });
 
     $flyAgain
       .on('click', () => {
@@ -114,18 +115,18 @@ function flappyTurd(){
   //function to stop game
   function stopGame(){
     soundEffect = new Audio('sounds/gameover.wav');
-    console.log('splat played');
-
 
     $turd.stop();
+    $(window)
+      .off('keypress')
+      .off('click');
+      
     gameMusic.pause();
     soundEffect.play();
     $obstacle.stop();
     $('#clouds, #trees, #hills, footer').spStop();
     clearInterval(gameInterval);
     $messageArea.show();
-
-    // $(window).unbind();
   }
 
   //function to create an obstacle with a random portion of two consecutive lis missing i.e. flyzone
